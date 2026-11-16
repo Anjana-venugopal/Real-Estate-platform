@@ -24,9 +24,26 @@ app.use('/api/properties', propertyRoutes);
 app.use('/api/appointments', appointmentRoutes);
 app.use('/api/ai', aiHubRoutes);
 
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => {
+const startServer = async () => {
+  try {
+    let mongoUri = process.env.MONGO_URI;
+
+    // If MONGO_URI is missing or still has the placeholder, start a local MongoDB automatically
+    if (!mongoUri || mongoUri.includes('<username>') || mongoUri.includes('cluster0.mongodb.net')) {
+      const { MongoMemoryServer } = require('mongodb-memory-server');
+      const mongod = await MongoMemoryServer.create();
+      mongoUri = mongod.getUri();
+      console.log('Using automatic local MongoDB:', mongoUri);
+    }
+
+    await mongoose.connect(mongoUri);
     console.log('MongoDB Connected');
-    app.listen(process.env.PORT || 5000, () => console.log('Backend running on port 5000'));
-  })
-  .catch((err) => console.error('DB Error:', err));
+    app.listen(process.env.PORT || 5000, () => {
+      console.log('Backend running on port 5000');
+    });
+  } catch (err) {
+    console.error('DB Error:', err);
+  }
+};
+
+startServer();
