@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { api } from '../context/AuthContext';
-import { Property } from '../types';
+import type { Property } from '../types';
 
 const Properties: React.FC = () => {
   const [searchParams] = useSearchParams();

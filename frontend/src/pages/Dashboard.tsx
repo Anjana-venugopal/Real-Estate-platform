@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { api, useAuth } from '../context/AuthContext';
-import { Property } from '../types';
+import type { Property } from '../types';
 
 const Dashboard: React.FC = () => {
   const { user } = useAuth();

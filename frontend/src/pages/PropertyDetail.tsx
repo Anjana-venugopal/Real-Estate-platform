@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { api, useAuth } from '../context/AuthContext';
-import { Property } from '../types';
+import type { Property } from '../types';
 
 const PropertyDetail: React.FC = () => {
   const { id } = useParams();
